@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="99dp"
+            android:text="关于三人行后台"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:text="用于三人行（我就是热点）服务器端管理，通过该app可以了解数据库的各表的数据信息量，可以给服务器设置定时任务，并收服务器完成定时任务的反馈，还可以查看客户端app的用户数据，以及将有想推送的内容推送给指定的用户群体。"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+</FrameLayout>

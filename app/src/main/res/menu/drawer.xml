@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.MainActivity">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_message"
+            android:icon="@drawable/message"
+            android:title="@string/navigation_message" />
+        <item
+            android:id="@+id/navigation_database"
+            android:icon="@drawable/database"
+            android:title="@string/navigation_database" />
+        <item
+            android:id="@+id/navigation_task"
+            android:icon="@drawable/task"
+            android:title="@string/navigation_task" />
+
+        <item
+            android:id="@+id/navigation_people"
+            android:icon="@drawable/people"
+            android:title="@string/navigation_people" />
+
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/navigation_about"
+            android:icon="@drawable/about"
+            android:title="@string/navigation_about"/>
+    </group>
+</menu>
