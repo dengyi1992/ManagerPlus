@@ -1,16 +1,22 @@
 package com.deng.manager.service;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 
+import com.deng.manager.R;
 import com.deng.manager.constant.ConstantValue;
 import com.deng.manager.dao.MessageDBHelper;
+import com.deng.manager.view.MainActivity;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -30,8 +36,10 @@ import java.net.URISyntaxException;
  * Created by deng on 16-3-13.
  */
 public class MessageService extends Service {
+    private static final int NOTIFICATION_ID = 1;
     private Socket mSocket;
     private LocalBroadcastManager broadcaster;
+    private NotificationManager mNotifMan;
 
 
     {
@@ -94,6 +102,7 @@ public class MessageService extends Service {
                 contentValues.put("body","更新成功");
                 contentValues.put("count",1);
                 contentValues.put("time",time);
+                mNtify(name,time);
                 writableDatabase.insert("Message",null,contentValues);
                 messagedb.close();
                 //弹出新的通知
@@ -113,6 +122,25 @@ public class MessageService extends Service {
         mSocket.disconnect();
         mSocket.off("new message", onNewMessage);
     }
+    private void mNtify(String title, String message) {
+        mNotifMan = (NotificationManager)
+                this.getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent intent = new Intent();
+        intent.putExtra("content", title + ":" + message);
+        intent.setClass(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                intent, 0);
 
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(message))
+                        .setContentTitle("您有新的消息...")
+                        .setContentText(title+"："+message);
+
+        mBuilder.setContentIntent(contentIntent);
+        mNotifMan.notify(NOTIFICATION_ID, mBuilder.build());
+    }
 
 }
