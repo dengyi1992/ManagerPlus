@@ -6,9 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -40,6 +42,29 @@ public class MessageFragment extends Fragment {
         mContentItems = new ArrayList<Message>();
         cardBigMessageAdapter = new CardBigMessageAdapter(getContext(), mContentItems);
         listViewMessage.setAdapter(cardBigMessageAdapter);
+        ///长按弹出对话框
+        listViewMessage.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                try {
+
+                    cardBigMessageAdapter.notifyDataSetChanged();
+                    findByIdAndDelete(mContentItems.get(position).getId());
+                mContentItems.remove(position);
+//                }catch (Exception e){
+//                    System.out.println("----eee----"+e);
+//                }
+
+                return true;
+            }
+        });
+        ///可以进详情。。。。
+        listViewMessage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
         return view;
     }
 
@@ -88,5 +113,15 @@ public class MessageFragment extends Fragment {
         writableDatabase.close();
         mContentItems.clear();
         cardBigMessageAdapter.notifyDataSetChanged();
+    }
+    private void findByIdAndDelete(int id) {
+        SQLiteDatabase writableDatabase =messageDBHelper.getWritableDatabase();
+        String DELETESQL = "DELETE FROM MESSAGE WHERE id = '" + id + "'";
+        try {
+            writableDatabase.execSQL(DELETESQL);
+        } catch (Exception e) {
+            Log.d("database exception ", e.toString());
+        }
+        writableDatabase.close();
     }
 }
