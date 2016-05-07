@@ -23,6 +23,7 @@ import com.deng.manager.fragment.DatabaseFragment;
 import com.deng.manager.fragment.MessageFragment;
 import com.deng.manager.fragment.PeopleFragment;
 import com.deng.manager.fragment.TaskFragment;
+import com.deng.manager.service.MessageService;
 
 public class MainActivity extends AppCompatActivity implements BackHandledFragment.BackHandlerInterface {
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
         //profile Image
 
         switchToMessage();
+        startService(new Intent(this, MessageService.class));
     }
 
     private void setUpProfileImage(String name) {

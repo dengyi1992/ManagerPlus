@@ -24,6 +24,7 @@ public class CardBigMessageAdapter extends BaseAdapter {
     public CardBigMessageAdapter(Context context, List<Message> objects) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
+        this.objects=objects;
     }
 
     @Override
@@ -53,6 +54,10 @@ public class CardBigMessageAdapter extends BaseAdapter {
 
     private void initializeViews(Message object, ViewHolder holder) {
         //TODO implement
+        holder.tvTitle.setText(object.getMessageTitle());
+        holder.tvContent.setText(object.getMessageBody());
+        holder.tvCount.setText("更新" + object.getMessageCount() + "条");
+        holder.tvTime.setText("更新时间：" + object.getTime());
     }
 
     protected class ViewHolder {

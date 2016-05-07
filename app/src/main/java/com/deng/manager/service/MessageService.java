@@ -11,15 +11,20 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.deng.manager.constant.ConstantValue;
 import com.deng.manager.dao.MessageDBHelper;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
+
 
 /**
  * Created by deng on 16-3-13.
@@ -43,7 +48,6 @@ public class MessageService extends Service {
 
     @Override
     public void onCreate() {
-        broadcaster = LocalBroadcastManager.getInstance(this);
         super.onCreate();
         mSocket.on("dengyi", onNewMessage);
         mSocket.on("taskfinish", onTaskFinish);
