@@ -12,17 +12,44 @@
         android:scrollbars="none" />
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="@dimen/btn_fab_margins"
-        android:layout_marginRight="@dimen/btn_fab_margins"
-        android:src="@drawable/ic_find_in_page_white"
-        app:borderWidth="0dp"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp" />
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_colorNormal="@color/blue"
+        app:menu_fab_label="消息菜单"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true">
+
+
+
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/clear_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/delete"
+            android:padding="10dp"
+            app:fab_colorNormal="@color/blue"
+            app:fab_label="清空所有"
+            app:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/message_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/setting"
+            app:fab_colorNormal="@color/blue"
+            app:fab_label="设设置"
+            app:fab_size="normal" />
+    </com.github.clans.fab.FloatingActionMenu>
 
 
     <ProgressBar

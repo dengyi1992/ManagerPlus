@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
 
     @Override
     public void onBackPressed() {
+        if (MessageFragment.floatingMessageActionMenu.isOpened()){
+            MessageFragment.floatingMessageActionMenu.close(true);
+            return;
+        }
         if (selectedFragment == null || !selectedFragment.onBackPressed()) {
             if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);

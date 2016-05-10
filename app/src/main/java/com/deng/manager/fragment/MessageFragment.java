@@ -1,5 +1,6 @@
 package com.deng.manager.fragment;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +19,9 @@ import com.deng.manager.R;
 import com.deng.manager.adapter.CardBigMessageAdapter;
 import com.deng.manager.bean.Message;
 import com.deng.manager.dao.MessageDBHelper;
+import com.deng.manager.view.MessageSetting;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +29,16 @@ import java.util.List;
 /**
  * Created by deng on 16-5-6.
  */
-public class MessageFragment extends Fragment {
+public class MessageFragment extends Fragment implements View.OnClickListener {
 
     private ListView listViewMessage;
     private ProgressBar mProgressBar;
     private List<Message> mContentItems;
     private CardBigMessageAdapter cardBigMessageAdapter;
     private MessageDBHelper messageDBHelper;
+    private FloatingActionButton fabClearAll;
+    private FloatingActionButton fabMessageSetting;
+    public static FloatingActionMenu floatingMessageActionMenu;
 
     @Nullable
     @Override
@@ -39,6 +46,13 @@ public class MessageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_message, null);
         listViewMessage = (ListView) view.findViewById(R.id.message_lv);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        fabClearAll = (FloatingActionButton) view.findViewById(R.id.clear_all);
+        fabMessageSetting = (FloatingActionButton) view.findViewById(R.id.message_setting);
+        floatingMessageActionMenu = (FloatingActionMenu) view.findViewById(R.id.menu_message);
+
+        fabClearAll.setOnClickListener(this);
+        fabMessageSetting.setOnClickListener(this);
+        floatingMessageActionMenu.setOnClickListener(this);
         mContentItems = new ArrayList<Message>();
         cardBigMessageAdapter = new CardBigMessageAdapter(getContext(), mContentItems);
         listViewMessage.setAdapter(cardBigMessageAdapter);
@@ -48,8 +62,8 @@ public class MessageFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 //                try {
 
-                    cardBigMessageAdapter.notifyDataSetChanged();
-                    findByIdAndDelete(mContentItems.get(position).getId());
+                cardBigMessageAdapter.notifyDataSetChanged();
+                findByIdAndDelete(mContentItems.get(position).getId());
                 mContentItems.remove(position);
 //                }catch (Exception e){
 //                    System.out.println("----eee----"+e);
@@ -99,7 +113,7 @@ public class MessageFragment extends Fragment {
             message.setMessageBody(body);
             message.setMessageTitle(title);
             message.setId(id);
-            mContentItems.add(0,message);
+            mContentItems.add(0, message);
 
         }
 
@@ -107,6 +121,7 @@ public class MessageFragment extends Fragment {
         mProgressBar.setVisibility(View.GONE);
         readableDatabase.close();
     }
+
     private void clearAllMessage() {
         SQLiteDatabase writableDatabase = messageDBHelper.getWritableDatabase();
         writableDatabase.execSQL("DELETE FROM Message");
@@ -114,8 +129,9 @@ public class MessageFragment extends Fragment {
         mContentItems.clear();
         cardBigMessageAdapter.notifyDataSetChanged();
     }
+
     private void findByIdAndDelete(int id) {
-        SQLiteDatabase writableDatabase =messageDBHelper.getWritableDatabase();
+        SQLiteDatabase writableDatabase = messageDBHelper.getWritableDatabase();
         String DELETESQL = "DELETE FROM MESSAGE WHERE id = '" + id + "'";
         try {
             writableDatabase.execSQL(DELETESQL);
@@ -123,5 +139,18 @@ public class MessageFragment extends Fragment {
             Log.d("database exception ", e.toString());
         }
         writableDatabase.close();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.clear_all:
+                clearAllMessage();
+                break;
+            case R.id.message_setting:
+                startActivity(new Intent(getContext(), MessageSetting.class));
+                break;
+            default:break;
+        }
     }
 }
