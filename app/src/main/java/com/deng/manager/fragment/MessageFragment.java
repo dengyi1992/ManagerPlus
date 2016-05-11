@@ -25,7 +25,7 @@ import com.deng.manager.bean.Message;
 import com.deng.manager.constant.ConstantValue;
 import com.deng.manager.dao.MessageDBHelper;
 import com.deng.manager.view.MessageDetailActivty;
-import com.deng.manager.view.MessageSetting;
+import com.deng.manager.view.MessageSettingActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -200,7 +200,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                         }).show();
                 break;
             case R.id.message_setting:
-                startActivity(new Intent(getContext(), MessageSetting.class));
+                startActivity(new Intent(getContext(), MessageSettingActivity.class));
                 break;
             default:
                 break;

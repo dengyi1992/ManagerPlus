@@ -37,7 +37,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".view.MessageSetting" />
+        <activity android:name=".view.MessageSettingActivity" />
         <activity
             android:name=".view.MessageDetailActivty"
             android:launchMode="singleInstance"></activity>
