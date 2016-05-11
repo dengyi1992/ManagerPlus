@@ -210,6 +210,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                iniData();
             }
         };
         IntentFilter intentFilter = new IntentFilter();
