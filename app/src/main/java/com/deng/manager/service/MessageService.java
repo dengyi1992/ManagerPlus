@@ -115,6 +115,9 @@ public class MessageService extends Service {
                 mNtify(name, time);
                 writableDatabase.insert("Message", null, contentValues);
                 messagedb.close();
+                Intent intent = new Intent();
+                intent.setAction(ConstantValue.UPDATE_MESSAGE_INFO);
+                sendBroadcast(intent);
                 //弹出新的通知
 //                System.out.println("##更新完的接口##"+iname+"##更新完成时间##"+time);
                 //任务完成，将所发任务的消息加入数据列表，并显示，可以加通知栏显示

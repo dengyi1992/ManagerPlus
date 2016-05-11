@@ -64,10 +64,7 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
             profileView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    switchToSetting();
-//                    mDrawerLayout.closeDrawers();
-//                    mNavigationView.getMenu().getItem(1).setChecked(true);
-
+                    startActivity(new Intent(MainActivity.this, AccountActivity.class));
                 }
             });
         }
@@ -182,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
 
     @Override
     public void onBackPressed() {
-        if (MessageFragment.floatingMessageActionMenu.isOpened()){
+        if (MessageFragment.floatingMessageActionMenu.isOpened()) {
             MessageFragment.floatingMessageActionMenu.close(true);
             return;
         }

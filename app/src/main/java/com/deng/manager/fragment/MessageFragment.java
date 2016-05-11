@@ -1,6 +1,8 @@
 package com.deng.manager.fragment;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -20,6 +22,7 @@ import android.widget.ProgressBar;
 import com.deng.manager.R;
 import com.deng.manager.adapter.CardBigMessageAdapter;
 import com.deng.manager.bean.Message;
+import com.deng.manager.constant.ConstantValue;
 import com.deng.manager.dao.MessageDBHelper;
 import com.deng.manager.view.MessageDetailActivty;
 import com.deng.manager.view.MessageSetting;
@@ -42,12 +45,14 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     private FloatingActionButton fabClearAll;
     private FloatingActionButton fabMessageSetting;
     public static FloatingActionMenu floatingMessageActionMenu;
+    private BroadcastReceiver broadcastReceiver;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, null);
         initView(view);
+        initBR();
         return view;
     }
 
@@ -200,5 +205,21 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+    private void initBR() {
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConstantValue.UPDATE_MESSAGE_INFO);
+        getContext().registerReceiver(broadcastReceiver,intentFilter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getContext().unregisterReceiver(broadcastReceiver);
     }
 }

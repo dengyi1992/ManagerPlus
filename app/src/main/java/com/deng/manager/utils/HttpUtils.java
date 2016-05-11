@@ -3,6 +3,9 @@ package com.deng.manager.utils;
 /**
  * Created by deng on 16-4-4.
  */
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -224,5 +227,62 @@ public class HttpUtils
             }
         }
         return result;
+    }
+    /**
+     * Get请求，获得返回数据
+     *
+     * @param urlStr
+     * @return
+     * @throws Exception
+     */
+    public static String doGetWithCookie(String urlStr,Context context) {
+        URL url = null;
+        HttpURLConnection conn = null;
+        InputStream is = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            url = new URL(urlStr);
+            SharedPreferences cookie = context.getSharedPreferences("cookie", Context.MODE_PRIVATE);
+            String my_cookie = cookie.getString("my_cookie", null);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(TIMEOUT_IN_MILLIONS);
+            conn.setConnectTimeout(TIMEOUT_IN_MILLIONS);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Cookie",my_cookie);
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            if (conn.getResponseCode() == 200) {
+                is = conn.getInputStream();
+                baos = new ByteArrayOutputStream();
+                int len = -1;
+                byte[] buf = new byte[128];
+
+                while ((len = is.read(buf)) != -1) {
+                    baos.write(buf, 0, len);
+                }
+                baos.flush();
+                return baos.toString();
+            } else {
+                throw new RuntimeException(" responseCode is not 200 ... ");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null)
+                    is.close();
+            } catch (IOException e) {
+            }
+            try {
+                if (baos != null)
+                    baos.close();
+            } catch (IOException e) {
+            }
+            conn.disconnect();
+        }
+
+        return null;
+
     }
 }
