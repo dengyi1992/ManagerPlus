@@ -96,6 +96,7 @@ public class MessageService extends Service {
             try {
                 String name = jsonObject.getString("iname");
                 String time = jsonObject.getString("time");
+                String type = jsonObject.getString("type");
                 System.out.println("++++++++++++++++" + name + time + "++++++++++++++++++++");
                 MessageDBHelper messagedb = new MessageDBHelper(MessageService.this, "messagedb", null, 1);
                 SQLiteDatabase writableDatabase = messagedb.getWritableDatabase();
@@ -108,7 +109,7 @@ public class MessageService extends Service {
                  + "time text)";
                  */
                 contentValues.put("title", name);
-                contentValues.put("body", "更新成功");
+                contentValues.put("body", type);
                 contentValues.put("count", 1);
                 contentValues.put("time", time);
                 mNtify(name, time);
