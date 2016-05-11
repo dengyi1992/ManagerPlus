@@ -12,20 +12,29 @@
         android:scrollbars="none" />
 
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="visible" />
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu_message"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="88dp"
+        android:layout_height="342dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        app:menu_backgroundColor="#ccffffff"
+        app:menu_backgroundColor="@android:color/transparent"
         app:menu_colorNormal="@color/blue"
         app:menu_fab_label="消息菜单"
         app:menu_labels_ellipsize="end"
-        app:menu_labels_singleLine="true">
+        app:menu_labels_singleLine="true"
+        android:layout_gravity="right|bottom">
 
 
 
@@ -35,7 +44,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/delete"
-            android:padding="10dp"
             app:fab_colorNormal="@color/blue"
             app:fab_label="清空所有"
             app:fab_size="normal" />
@@ -44,19 +52,9 @@
             android:id="@+id/message_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:src="@mipmap/setting"
             app:fab_colorNormal="@color/blue"
-            app:fab_label="设设置"
+            app:fab_label="设置"
             app:fab_size="normal" />
     </com.github.clans.fab.FloatingActionMenu>
-
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:visibility="visible" />
 </FrameLayout>

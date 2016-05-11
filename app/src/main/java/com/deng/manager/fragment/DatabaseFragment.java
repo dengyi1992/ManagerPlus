@@ -39,10 +39,16 @@ public class DatabaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_database, null);
+        initView(view);
+
+        return view;
+    }
+
+    private void initView(View view) {
         listViewDatabase = (ListView) view.findViewById(R.id.database_lv);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         setUpFAB(view);
-        contents=new ArrayList<DataBaseInfo.ContentEntity>();
+        contents = new ArrayList<DataBaseInfo.ContentEntity>();
         cardBigDatabaseAdapter = new CardBigDatabaseAdapter(getContext(), contents);
         listViewDatabase.setAdapter(cardBigDatabaseAdapter);
         listViewDatabase.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,10 +70,10 @@ public class DatabaseFragment extends Fragment {
                                  * 跳转到详情页面
                                  * 先判断是否是行数大于0如果大于0的话就可以跳转
                                  */
-                                if (contents.get(position).getTABLE_ROWS()>0){
+                                if (contents.get(position).getTABLE_ROWS() > 0) {
                                     //跳转到详情页面
-                                }else {
-                                    Toast.makeText(getContext(),"该数据库没有数据！！！",Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), "该数据库没有数据！！！", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -75,7 +81,7 @@ public class DatabaseFragment extends Fragment {
                         .setNeutralButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(getContext(),"取消",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "取消", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("清空数据", new DialogInterface.OnClickListener() {
@@ -84,14 +90,12 @@ public class DatabaseFragment extends Fragment {
                                 /**
                                  * 此处需要输入密码进行验证
                                  */
-                                Toast.makeText(getContext(),"清空数据",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "清空数据", Toast.LENGTH_SHORT).show();
                             }
                         }).show();
-
                 return true;
             }
         });
-        return view;
     }
 
     private void setUpFAB(View view) {

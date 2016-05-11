@@ -1,5 +1,7 @@
 package com.deng.manager.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -19,6 +21,7 @@ import com.deng.manager.R;
 import com.deng.manager.adapter.CardBigMessageAdapter;
 import com.deng.manager.bean.Message;
 import com.deng.manager.dao.MessageDBHelper;
+import com.deng.manager.view.MessageDetailActivty;
 import com.deng.manager.view.MessageSetting;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -44,6 +47,12 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, null);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
+
         listViewMessage = (ListView) view.findViewById(R.id.message_lv);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         fabClearAll = (FloatingActionButton) view.findViewById(R.id.clear_all);
@@ -59,15 +68,25 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         ///长按弹出对话框
         listViewMessage.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                try {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                cardBigMessageAdapter.notifyDataSetChanged();
-                findByIdAndDelete(mContentItems.get(position).getId());
-                mContentItems.remove(position);
-//                }catch (Exception e){
-//                    System.out.println("----eee----"+e);
-//                }
+                new AlertDialog.Builder(view.getContext()).setTitle("温馨提示")
+                        .setMessage("是否删除 " + mContentItems.get(position).getMessageTitle() + "?")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                cardBigMessageAdapter.notifyDataSetChanged();
+                                findByIdAndDelete(mContentItems.get(position).getId());
+                                mContentItems.remove(position);
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+
 
                 return true;
             }
@@ -76,10 +95,23 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         listViewMessage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(getContext(), MessageDetailActivty.class);
+                Message message = mContentItems.get(position);
+                /**
+                 *   public String messageTitle;
+                 public String messageBody;
+                 public int messageCount;
+                 public String time;
+                 public int id;
+                 */
+                intent.putExtra("messageTitle",message.getMessageTitle());
+                intent.putExtra("messageBody",message.getMessageBody());
+                intent.putExtra("messageCount",message.getMessageCount());
+                intent.putExtra("time",message.getTime());
+                intent.putExtra("id",message.getId());
+                startActivity(intent);
             }
         });
-        return view;
     }
 
     @Override
@@ -143,14 +175,30 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.clear_all:
-                clearAllMessage();
+                new AlertDialog.Builder(getActivity()).setTitle("温馨提示")
+                        .setMessage("是否清空所有消息")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                clearAllMessage();
+
+                                floatingMessageActionMenu.close(true);
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                floatingMessageActionMenu.close(true);
+                            }
+                        }).show();
                 break;
             case R.id.message_setting:
                 startActivity(new Intent(getContext(), MessageSetting.class));
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 }

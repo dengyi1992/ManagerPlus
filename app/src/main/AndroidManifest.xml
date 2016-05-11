@@ -3,11 +3,15 @@
     package="com.deng.manager">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -27,9 +31,28 @@
             android:name=".view.RegisterActivity"
             android:launchMode="singleTask" />
 
-        <service android:name=".service.MessageService" />
+        <service android:name=".service.MessageService">
+            <intent-filter android:priority="1000">
+                <action android:name="com.srx.manager.messageService" />
+            </intent-filter>
+        </service>
 
-        <activity android:name=".view.MessageSetting"></activity>
+        <activity android:name=".view.MessageSetting" />
+        <activity
+            android:name=".view.MessageDetailActivty"
+            android:launchMode="singleInstance"></activity>
+
+        <receiver android:name=".receiver.MessageReceiver">
+            <intent-filter android:priority="2147483647">
+                <!-- 系统启动完成后会调用 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- 解锁完成后会调用 -->
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <!-- 监听情景切换 -->
+                <action android:name="android.media.RINGER_MODE_CHANGED" />
+                <action android:name="com.srx.manager.receriver" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
