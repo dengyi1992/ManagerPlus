@@ -8,8 +8,9 @@ public class ConstantValue {
     public static final String BaseUr12 = "http://120.27.41.245:2888/";
     public static final String ACTION_UPDATEUI = "action.updateMessage";
     //    private static final String BaseUrl="http://10.170.5.108:2888/";
-    public static String LoginUrl = BaseUrl + "login";
-    public static String RegUrl = BaseUrl + "reg";
+    public static String LoginUrl = "http://120.27.41.245:3001/admin/login";
+    public static String RegUrl = "http://120.27.41.245:3001/admin/reg";
+    public static String LogOutUrl = "http://120.27.41.245:3001/admin/logout";
     public static String CollectionUrl = BaseUrl + "collection";
     public static String PostUrl = BaseUrl + "post";
     public static String ApiUrl = BaseUrl + "api";

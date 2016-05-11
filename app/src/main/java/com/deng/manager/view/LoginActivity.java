@@ -22,6 +22,10 @@ import android.widget.Toast;
 import com.deng.manager.R;
 import com.deng.manager.constant.ConstantValue;
 import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 //import com.squareup.okhttp.OkHttpClient;
 //import com.squareup.okhttp.Request;
 //import com.squareup.okhttp.RequestBody;
@@ -55,7 +59,13 @@ public class LoginActivity extends AppCompatActivity {
                         resetAccount();
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject jsonObject = new JSONObject(success);
+                            Toast.makeText(LoginActivity.this, jsonObject.getString("error")
+                                    , Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     break;
                 case NETWORK_EORR:
@@ -162,47 +172,47 @@ public class LoginActivity extends AppCompatActivity {
             new Thread() {
                 @Override
                 public void run() {
-//                    postJson();
+                    postJson();
                 }
             }.start();
 
         }
     }
 
-//    private void postJson() {
-//        //申明给服务端传递一个json串
-//        //创建一个OkHttpClient对象
-//        OkHttpClient okHttpClient = new OkHttpClient();
-//
-//        //创建一个RequestBody(参数1：数据类型 参数2传递的json串)
-//        RequestBody requestBody = RequestBody.create(JSON, json);
-//        //创建一个请求对象
-//        Request request = new Request.Builder()
-//                .url(ConstantValue.LoginUrl)
-//                .post(requestBody)
-//                .build();
-//        //发送请求获取响应
-//        try {
-//            Response response = okHttpClient.newCall(request).execute();
-//            //判断请求是否成功
-//            if (response.isSuccessful()) {
-//                //打印服务端返回结果
-//                success = response.body().string();
-//                String header = response.header("set-cookie");
-//                SharedPreferences cookie = getSharedPreferences("cookie", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor edit = cookie.edit();
-//                edit.clear();
-//                edit.putString("my_cookie",header);
-//                edit.commit();
-//                Log.i("success", success);
-//                handler.sendEmptyMessage(POSTED);
-//            } else {
-//                handler.sendEmptyMessage(NETWORK_EORR);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void postJson() {
+        //申明给服务端传递一个json串
+        //创建一个OkHttpClient对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        //创建一个RequestBody(参数1：数据类型 参数2传递的json串)
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        //创建一个请求对象
+        Request request = new Request.Builder()
+                .url(ConstantValue.LoginUrl)
+                .post(requestBody)
+                .build();
+        //发送请求获取响应
+        try {
+            Response response = okHttpClient.newCall(request).execute();
+            //判断请求是否成功
+            if (response.isSuccessful()) {
+                //打印服务端返回结果
+                success = response.body().string();
+                String header = response.header("set-cookie");
+                SharedPreferences cookie = getSharedPreferences("cookie", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = cookie.edit();
+                edit.clear();
+                edit.putString("my_cookie", header);
+                edit.commit();
+                Log.i("success", success);
+                handler.sendEmptyMessage(POSTED);
+            } else {
+                handler.sendEmptyMessage(NETWORK_EORR);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private boolean isNameValid(String name) {
         return name.length() >= 1;

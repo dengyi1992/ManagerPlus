@@ -20,15 +20,17 @@ import android.widget.Toast;
 import com.deng.manager.R;
 import com.deng.manager.constant.ConstantValue;
 import com.squareup.okhttp.MediaType;
-//import com.squareup.okhttp.OkHttpClient;
-//import com.squareup.okhttp.Request;
-//import com.squareup.okhttp.RequestBody;
-//import com.squareup.okhttp.Response;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
 
 public class RegisterActivity extends AppCompatActivity {
     private static final int POSTED = 1;
@@ -50,8 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                 case POSTED:
                     showProgress(false);
                     if (success.contains("success")) {
-                        Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        Toast.makeText(RegisterActivity.this, "注册成功!请等待管理员授权...", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         try {
@@ -193,17 +194,14 @@ public class RegisterActivity extends AppCompatActivity {
             }
             json = jsonObject.toString();
             showProgress(true);
-            //http://119.29.191.229:2888/users/login
             new Thread() {
                 @Override
                 public void run() {
 
-//                    postJson();
+                    postJson();
                 }
             }.start();
 
-//            mAuthTask = new UserLoginTask(email, password);
-//            mAuthTask.execute((Void) null);
         }
     }
 
@@ -252,33 +250,33 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-//    private void postJson() {
-//        //申明给服务端传递一个json串
-//        //创建一个OkHttpClient对象
-//        OkHttpClient okHttpClient = new OkHttpClient();
-//        //创建一个RequestBody(参数1：数据类型 参数2传递的json串)
-//
-//        RequestBody requestBody = RequestBody.create(JSON, json);
-//        //创建一个请求对象
-//        Request request = new Request.Builder()
-//                .url(ConstantValue.RegUrl)
-//                .post(requestBody)
-//                .build();
-//        //发送请求获取响应
-//        try {
-//            Response response = okHttpClient.newCall(request).execute();
-//            //判断请求是否成功
-//            if (response.isSuccessful()) {
-//                //打印服务端返回结果
-//                success = response.body().string();
-//                Log.i("success", success);
-//                handler.sendEmptyMessage(POSTED);
-//            } else {
-//                handler.sendEmptyMessage(NETWORK_EORR);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+    private void postJson() {
+        //申明给服务端传递一个json串
+        //创建一个OkHttpClient对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+        //创建一个RequestBody(参数1：数据类型 参数2传递的json串)
+
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        //创建一个请求对象
+        Request request = new Request.Builder()
+                .url(ConstantValue.RegUrl)
+                .post(requestBody)
+                .build();
+        //发送请求获取响应
+        try {
+            Response response = okHttpClient.newCall(request).execute();
+            //判断请求是否成功
+            if (response.isSuccessful()) {
+                //打印服务端返回结果
+                success = response.body().string();
+                Log.i("success", success);
+                handler.sendEmptyMessage(POSTED);
+            } else {
+                handler.sendEmptyMessage(NETWORK_EORR);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
