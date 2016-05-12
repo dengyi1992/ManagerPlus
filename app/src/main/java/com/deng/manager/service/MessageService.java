@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -43,6 +44,7 @@ public class MessageService extends Service {
     private LocalBroadcastManager broadcaster;
     private NotificationManager mNotifMan;
     private NotificationManager systemService;
+    private SharedPreferences messageSetting;
 
 
     {
@@ -65,9 +67,11 @@ public class MessageService extends Service {
         mSocket.on("dengyi", onNewMessage);
         mSocket.on("taskfinish", onTaskFinish);
         mSocket.connect();
+        messageSetting = getSharedPreferences("messageSetting", MODE_PRIVATE);
         mNotifMan = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
         attemptSend();
+
     }
 
     private void attemptSend() {
@@ -97,6 +101,11 @@ public class MessageService extends Service {
                 String name = jsonObject.getString("iname");
                 String time = jsonObject.getString("time");
                 String type = jsonObject.getString("type");
+                String messageType = jsonObject.getString("messageType");
+                if (!messageSetting.getBoolean(messageType,true))
+                {
+                    return;
+                }
                 System.out.println("++++++++++++++++" + name + time + "++++++++++++++++++++");
                 MessageDBHelper messagedb = new MessageDBHelper(MessageService.this, "messagedb", null, 1);
                 SQLiteDatabase writableDatabase = messagedb.getWritableDatabase();
