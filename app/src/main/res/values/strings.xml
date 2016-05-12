@@ -60,4 +60,6 @@
     <string name="error_no_renewpass">新密码重复为空</string>
     <string name="error_nosame_password">两次密码不一致</string>
     <string name="error_invalid_email">邮箱格式不正确</string>
+    <string name="clear_table">http://120.27.41.245:3001/admin/clearTable?tablename=</string>
+    <string name="databaseinfo">http://120.27.41.245:3001/admin/databaseinfo</string>
 </resources>

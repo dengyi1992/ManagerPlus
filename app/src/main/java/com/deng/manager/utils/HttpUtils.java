@@ -54,7 +54,32 @@ public class HttpUtils
             };
         }.start();
     }
+    /**
+     * 异步的Get请求
+     *
 
+     */
+    public static void doGetAsynWithCookie(final String urlStr,final Context context ,final CallBack callBack)
+    {
+        new Thread()
+        {
+            public void run()
+            {
+                try
+                {
+                    String result = doGetWithCookie(urlStr,context);
+                    if (callBack != null)
+                    {
+                        callBack.onRequestComplete(result);
+                    }
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+            };
+        }.start();
+    }
     /**
      * 异步的Post请求
      * @param urlStr

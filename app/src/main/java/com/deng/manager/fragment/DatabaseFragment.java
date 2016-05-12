@@ -3,6 +3,8 @@ package com.deng.manager.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,9 @@ import com.deng.manager.bean.DataBaseInfo;
 import com.deng.manager.utils.HttpUtils;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +34,38 @@ import java.util.List;
  */
 public class DatabaseFragment extends Fragment {
 
+    private static final int DATAUPDATE = 1;
+    private static final int DELETED = 2;
     private ListView listViewDatabase;
     private ProgressBar mProgressBar;
     private FloatingActionButton mFabButton;
     private List<DataBaseInfo.ContentEntity> contents;
     private CardBigDatabaseAdapter cardBigDatabaseAdapter;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case DATAUPDATE:
+                    cardBigDatabaseAdapter.notifyDataSetChanged();
+                    mProgressBar.setVisibility(View.GONE);
+                    break;
+                case DELETED:
+                    if (result.contains("success")) {
+                        Toast.makeText(getContext(), "清空成功", Toast.LENGTH_SHORT).show();
+                        initData();
+                    } else {
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String err = jsonObject.getString("error");
+                            Toast.makeText(getContext(), err, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+            }
+        }
+    };
+    private String result;
 
     @Nullable
     @Override
@@ -47,7 +79,6 @@ public class DatabaseFragment extends Fragment {
     private void initView(View view) {
         listViewDatabase = (ListView) view.findViewById(R.id.database_lv);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        setUpFAB(view);
         contents = new ArrayList<DataBaseInfo.ContentEntity>();
         cardBigDatabaseAdapter = new CardBigDatabaseAdapter(getContext(), contents);
         listViewDatabase.setAdapter(cardBigDatabaseAdapter);
@@ -90,7 +121,8 @@ public class DatabaseFragment extends Fragment {
                                 /**
                                  * 此处需要输入密码进行验证
                                  */
-                                Toast.makeText(getContext(), "清空数据", Toast.LENGTH_SHORT).show();
+                                clearTable(contents.get(position).getTABLE_NAME());
+
                             }
                         }).show();
                 return true;
@@ -98,10 +130,18 @@ public class DatabaseFragment extends Fragment {
         });
     }
 
-    private void setUpFAB(View view) {
-        mFabButton = (FloatingActionButton) view.findViewById(R.id.fab_normal);
+    private void clearTable(String tableName) {
 
+        HttpUtils.doGetAsynWithCookie(getString(R.string.clear_table) + tableName, getContext(), new HttpUtils.CallBack() {
+            @Override
+            public void onRequestComplete(String result) {
+                DatabaseFragment.this.result = result;
+                handler.sendEmptyMessage(DELETED);
+            }
+        });
     }
+
+
 
     @Override
     public void onResume() {
@@ -111,7 +151,7 @@ public class DatabaseFragment extends Fragment {
 
     private void initData() {
         mProgressBar.setVisibility(View.VISIBLE);
-        HttpUtils.doGetAsyn("http://120.27.41.245:3000/database_info", new HttpUtils.CallBack() {
+        HttpUtils.doGetAsyn(getString(R.string.databaseinfo), new HttpUtils.CallBack() {
             @Override
             public void onRequestComplete(String result) {
                 if (result.contains("success")) {
@@ -120,13 +160,7 @@ public class DatabaseFragment extends Fragment {
                     DataBaseInfo dataBaseInfo = gson.fromJson(result, DataBaseInfo.class);
                     contents.clear();
                     contents.addAll(dataBaseInfo.getContent());
-                    listViewDatabase.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            cardBigDatabaseAdapter.notifyDataSetChanged();
-                            mProgressBar.setVisibility(View.GONE);
-                        }
-                    });
+                    handler.sendEmptyMessage(DATAUPDATE);
                 }
             }
         });
