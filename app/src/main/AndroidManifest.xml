@@ -62,7 +62,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".view.DataBaseActivity"></activity>
+        <activity android:name=".view.DataBaseActivity" />
+        <activity android:name=".view.TaskEditActivity"></activity>
     </application>
 
 </manifest>

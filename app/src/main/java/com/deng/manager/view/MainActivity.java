@@ -22,6 +22,7 @@ import com.deng.manager.fragment.BackHandledFragment;
 import com.deng.manager.fragment.DatabaseFragment;
 import com.deng.manager.fragment.MessageFragment;
 import com.deng.manager.fragment.PeopleFragment;
+import com.deng.manager.fragment.RecordFragment;
 import com.deng.manager.fragment.TaskFragment;
 import com.deng.manager.service.MessageService;
 
@@ -126,6 +127,9 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
                     case R.id.navigation_people:
                         switchToPeople();
                         break;
+                    case R.id.navigation_log:
+                        switchToLog();
+                        break;
                     case R.id.navigation_about:
                         switchToAbout();
                 }
@@ -154,6 +158,10 @@ public class MainActivity extends AppCompatActivity implements BackHandledFragme
     private void switchToMessage() {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new MessageFragment()).commit();
         mToolbar.setTitle(R.string.navigation_message);
+    }
+    private void switchToLog() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new RecordFragment()).commit();
+        mToolbar.setTitle(R.string.navigation_record);
     }
 
     private void switchToAbout() {

@@ -1,8 +1,8 @@
 package com.deng.manager.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,8 @@ import com.deng.manager.adapter.CardBigTaskAdapter;
 import com.deng.manager.bean.DataBaseInfo;
 import com.deng.manager.bean.Task;
 import com.deng.manager.utils.HttpUtils;
+import com.deng.manager.view.TaskEditActivity;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -24,28 +26,37 @@ import java.util.ArrayList;
  */
 public class TaskFragment extends Fragment {
 
+    private static final int REQUESTCODE = 1;
     private ListView listViewTask;
-    private ProgressBar mProgressBar;
-    private FloatingActionButton mFabButton;
     private ArrayList<Task.ContentBean> contents;
     private CardBigTaskAdapter cardBigTaskAdapter;
+    private ProgressBar mProgressBarProgressBar;
+    private ListView mLvListView;
+    private FloatingActionButton mAddFloatingActionButton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task, null);
+        mLvListView = (ListView) view.findViewById(R.id.task_lv);
+        mAddFloatingActionButton = (com.github.clans.fab.FloatingActionButton) view.findViewById(R.id.task_add);
+        mProgressBarProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+        mProgressBarProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         listViewTask = (ListView) view.findViewById(R.id.task_lv);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         contents = new ArrayList<Task.ContentBean>();
         cardBigTaskAdapter = new CardBigTaskAdapter(getContext(), contents);
         listViewTask.setAdapter(cardBigTaskAdapter);
-        setUpFAB(view);
+        mAddFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TaskEditActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
-    private void setUpFAB(View view) {
-        mFabButton = (FloatingActionButton) view.findViewById(R.id.fab_normal);
-    }
 
     @Override
     public void onResume() {
@@ -54,7 +65,7 @@ public class TaskFragment extends Fragment {
     }
 
     private void initData() {
-        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBarProgressBar.setVisibility(View.VISIBLE);
         HttpUtils.doGetAsyn("http://120.27.41.245:3001/admin/tasksetting_info", new HttpUtils.CallBack() {
             @Override
             public void onRequestComplete(String result) {
@@ -68,11 +79,13 @@ public class TaskFragment extends Fragment {
                         @Override
                         public void run() {
                             cardBigTaskAdapter.notifyDataSetChanged();
-                            mProgressBar.setVisibility(View.GONE);
+                            mProgressBarProgressBar.setVisibility(View.GONE);
                         }
                     });
                 }
             }
         });
     }
+
+
 }

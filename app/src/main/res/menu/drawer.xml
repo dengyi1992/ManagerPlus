@@ -20,11 +20,14 @@
             android:id="@+id/navigation_people"
             android:icon="@drawable/people"
             android:title="@string/navigation_people" />
-
-    </group>
-    <group android:checkableBehavior="single">
-        <item android:id="@+id/navigation_about"
+        <item
+            android:id="@+id/navigation_log"
+            android:icon="@drawable/record"
+            android:title="@string/navigation_record" />
+        <item
+            android:id="@+id/navigation_about"
             android:icon="@drawable/about"
-            android:title="@string/navigation_about"/>
+            android:title="@string/navigation_about" />
+
     </group>
 </menu>

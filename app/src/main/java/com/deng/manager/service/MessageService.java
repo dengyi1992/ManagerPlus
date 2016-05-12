@@ -144,7 +144,7 @@ public class MessageService extends Service {
         flags = START_STICKY;
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_stat_name)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText("三人行"))
                         .setDefaults(Notification.DEFAULT_SOUND)
@@ -179,7 +179,7 @@ public class MessageService extends Service {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_stat_name)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(message))
                         .setDefaults(Notification.DEFAULT_SOUND)

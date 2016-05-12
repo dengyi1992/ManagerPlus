@@ -62,4 +62,15 @@
     <string name="error_invalid_email">邮箱格式不正确</string>
     <string name="clear_table">http://120.27.41.245:3001/admin/clearTable?tablename=</string>
     <string name="databaseinfo">http://120.27.41.245:3001/admin/databaseinfo</string>
+    <string name="navigation_record">日志</string>
+    <string name="getrecord">http://120.27.41.245:3001/admin/getRecord</string>
+    <string name="tasksetting">任务设置</string>
+    <string name="upload">提交</string>
+    <string name="cancle">取消</string>
+    <string name="edittask" />
+    <string name="error_no_cycle">周期不能为空</string>
+    <string name="error_no_interface">接口不能为空</string>
+    <string name="error_no_tag">标签不能为空</string>
+    <string name="error_no_type">类型不能为空</string>
+    <string name="error_invalid_cricle">包含不是数字的字符</string>
 </resources>
