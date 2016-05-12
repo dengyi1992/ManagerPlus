@@ -30,7 +30,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:menu_backgroundColor="@android:color/transparent"
-        app:menu_colorNormal="@color/blue"
+        app:menu_colorNormal="@color/primary"
         app:menu_fab_label="消息菜单"
         app:menu_labels_ellipsize="end"
         app:menu_labels_singleLine="true"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/delete"
-            app:fab_colorNormal="@color/blue"
+            app:fab_colorNormal="@color/primary"
             app:fab_label="清空所有"
             app:fab_size="normal" />
 
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/setting"
-            app:fab_colorNormal="@color/blue"
+            app:fab_colorNormal="@color/primary"
             app:fab_label="设置"
             app:fab_size="normal" />
     </com.github.clans.fab.FloatingActionMenu>

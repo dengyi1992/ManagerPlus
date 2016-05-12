@@ -77,6 +77,7 @@ public class DataBaseInfo {
         private String CREATE_OPTIONS;
         private String TABLE_COMMENT;
 
+
         public void setTABLE_CATALOG(String TABLE_CATALOG) {
             this.TABLE_CATALOG = TABLE_CATALOG;
         }
@@ -244,5 +245,6 @@ public class DataBaseInfo {
         public String getTABLE_COMMENT() {
             return TABLE_COMMENT;
         }
+
     }
 }

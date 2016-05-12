@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import com.deng.manager.R;
@@ -16,20 +17,54 @@ import java.util.ArrayList;
 
 public class MessageSettingActivity extends AppCompatActivity {
 
-    private ListView mLvmSettingListView;
-    private ArrayList<MessageSetting> messageSettings;
-    private MessagesettingSmallItemAdapter messagesettingSmallItemAdapter;
+
     private SharedPreferences messageSetting;
+    private CheckBox mDataupdateCheckBox;
+    private CheckBox mUserregisterCheckBox;
+    private CheckBox mUserActivedCheckBox;
+    private CheckBox mServerErrorCheckBox;
+    private SharedPreferences.Editor edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_setting);
-        mLvmSettingListView = (ListView) findViewById(R.id.lvm_setting);
-        messageSettings = new ArrayList<>();
-        messagesettingSmallItemAdapter = new MessagesettingSmallItemAdapter(this, messageSettings);
-        mLvmSettingListView.setAdapter(messagesettingSmallItemAdapter);
+        messageSetting = getSharedPreferences("messageSetting", MODE_PRIVATE);
+        edit = messageSetting.edit();
+        initView();
 
+
+    }
+
+    private void initView() {
+        mDataupdateCheckBox = (CheckBox) findViewById(R.id.cb_dataupdate);
+        mDataupdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                edit.putBoolean("dataupdate", isChecked).commit();
+            }
+        });
+        mUserregisterCheckBox = (CheckBox) findViewById(R.id.cb_userregister);
+        mUserregisterCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                edit.putBoolean("userregister", isChecked).commit();
+            }
+        });
+        mUserActivedCheckBox = (CheckBox) findViewById(R.id.cb_user_actived);
+        mUserActivedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                edit.putBoolean("useractived", isChecked).commit();
+            }
+        });
+        mServerErrorCheckBox = (CheckBox) findViewById(R.id.cb_server_error);
+        mServerErrorCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                edit.putBoolean("servererror", isChecked).commit();
+            }
+        });
     }
 
     @Override
@@ -39,23 +74,16 @@ public class MessageSettingActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        messageSetting = getSharedPreferences("messageSetting", MODE_PRIVATE);
-        messageSettings.clear();
-        MessageSetting dataUpdate = new MessageSetting("数据更新消息", "dataUpdate", messageSetting.getBoolean("dataUpdate", true));
-        messageSettings.add(dataUpdate);
-        MessageSetting userReg = new MessageSetting("管理员用户注册消息", "userReg", messageSetting.getBoolean("userReg", true));
-        messageSettings.add(userReg);
-        MessageSetting userActvie = new MessageSetting("管理员用户激活消息", "userActvie", messageSetting.getBoolean("userActvie", true));
-        messageSettings.add(userActvie);
-        MessageSetting seriverError = new MessageSetting("服务器错误消息", "seriverError", messageSetting.getBoolean("seriverError", true));
-        messageSettings.add(seriverError);
-        messagesettingSmallItemAdapter.notifyDataSetChanged();
-
+        mDataupdateCheckBox.setChecked(messageSetting.getBoolean("dataupdate", true));
+        mUserActivedCheckBox.setChecked(messageSetting.getBoolean("useractived", true));
+        mUserregisterCheckBox.setChecked(messageSetting.getBoolean("userregister", true));
+        mServerErrorCheckBox.setChecked(messageSetting.getBoolean("servererror", true));
     }
 
     @Override
     public void onBackPressed() {
         finish();
     }
+
 
 }
