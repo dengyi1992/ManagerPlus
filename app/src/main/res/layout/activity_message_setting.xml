@@ -15,6 +15,10 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:translationZ="2dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray"/>
     <RelativeLayout
         android:layout_gravity="center"
         android:padding="10dp"
