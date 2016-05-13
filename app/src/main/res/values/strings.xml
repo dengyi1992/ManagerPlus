@@ -67,7 +67,7 @@
     <string name="tasksetting">任务设置</string>
     <string name="upload">提交</string>
     <string name="cancle">取消</string>
-    <string name="edittask" />
+    <string name="edittask">http://120.27.41.245:3001/admin/tasksetting</string>
     <string name="error_no_cycle">周期不能为空</string>
     <string name="error_no_interface">接口不能为空</string>
     <string name="error_no_tag">标签不能为空</string>

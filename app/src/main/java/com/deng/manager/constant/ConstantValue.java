@@ -1,5 +1,7 @@
 package com.deng.manager.constant;
 
+import com.squareup.okhttp.HttpUrl;
+
 /**
  * Created by deng on 16-5-6.
  */
@@ -20,4 +22,5 @@ public class ConstantValue {
     public static String add_account_cUrl = BaseUrl + "add_account";
     public static String changePassUrl = "http://120.27.41.245:3001/admin/changepass";
     public static String CheckUrl = BaseUrl + "wahhh";
+    public static String taskSetting = "http://120.27.41.245:3001/admin/tasksetting";
 }

@@ -15,7 +15,11 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="消息头"/>
+        android:text="消息头"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="26dp" />
     <TextView
         android:id="@+id/tv_content"
         android:gravity="center"
@@ -24,9 +28,10 @@
         android:text="内容"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_title" />
+        android:layout_marginTop="114dp" />
     <TextView
         android:id="@+id/tv_count"
         android:gravity="center"
@@ -34,10 +39,10 @@
         android:text="更新×条"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tv_time"
+        android:layout_below="@+id/tv_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginTop="163dp" />
     <TextView
         android:id="@+id/tv_time"
         android:gravity="right"
