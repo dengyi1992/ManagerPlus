@@ -57,7 +57,7 @@ public class CardBigTaskAdapter extends BaseAdapter {
 
         holder.tvName.setText("名字："+object.getInterfacetag());
         holder.tvDesc.setText("描述："+object.getInterfaceurl());
-        holder.tvCycle.setText("周期："+object.getCycle()+"分钟");
+        holder.tvCycle.setText("周期："+object.getCycle()*5+"分钟");
         holder.tvIsrepeat.setText("重复");
         holder.tvType.setText("类型："+object.getType());
     }
