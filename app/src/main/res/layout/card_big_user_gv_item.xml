@@ -8,7 +8,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="180dp"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:layout_marginBottom="@dimen/cardMarginVertical"
         android:layout_marginLeft="@dimen/cardMarginHorizontal"
         android:layout_marginRight="@dimen/cardMarginHorizontal"
@@ -18,10 +18,11 @@
         app:cardPreventCornerOverlap="false"
         app:contentPadding="0dp">
         <LinearLayout
+            android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="@dimen/item_padding"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
