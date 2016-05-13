@@ -12,17 +12,43 @@
         android:scrollbars="none" />
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="@dimen/btn_fab_margins"
-        android:layout_marginRight="@dimen/btn_fab_margins"
-        android:src="@drawable/ic_find_in_page_white"
-        app:borderWidth="0dp"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp" />
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu_message"
+        android:layout_width="88dp"
+        android:layout_height="342dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:menu_backgroundColor="@android:color/transparent"
+        app:menu_colorNormal="@color/primary"
+        app:menu_fab_label="用户菜单"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        android:layout_gravity="right|bottom">
+
+
+
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/push_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/push"
+            app:fab_colorNormal="@color/primary"
+            app:fab_label="推送消息"
+            app:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/change_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/change"
+            app:fab_colorNormal="@color/primary"
+            app:fab_label="切换视图"
+            app:fab_size="normal" />
+    </com.github.clans.fab.FloatingActionMenu>
 
 
     <ProgressBar
