@@ -1,6 +1,8 @@
 package com.deng.manager.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.deng.manager.R;
 import com.deng.manager.adapter.CardBigTaskAdapter;
@@ -50,6 +53,12 @@ public class TaskFragment extends Fragment {
         mAddFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+                boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+                if (!isLogin){
+                    Toast.makeText(getContext(),"未登录",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(getContext(), TaskEditActivity.class);
                 startActivity(intent);
             }
