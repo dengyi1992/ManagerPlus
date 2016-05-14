@@ -133,7 +133,7 @@ public class PushActivty extends AppCompatActivity {
                                 }.start();
                             }
                         })
-                        .setNegativeButton("在考虑下", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("再考虑下", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 

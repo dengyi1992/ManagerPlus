@@ -1,7 +1,6 @@
 package com.deng.manager.adapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -46,7 +45,7 @@ public class CardBigLogAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.card_big_log, null);
+            convertView = layoutInflater.inflate(R.layout.card_big_log_item, null);
             convertView.setTag(new ViewHolder(convertView));
         }
         initializeViews((LogBean.SuccessBean) getItem(position), (ViewHolder) convertView.getTag());
