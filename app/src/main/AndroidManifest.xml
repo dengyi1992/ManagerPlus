@@ -63,7 +63,8 @@
         </receiver>
 
         <activity android:name=".view.DataBaseActivity" />
-        <activity android:name=".view.TaskEditActivity"></activity>
+        <activity android:name=".view.TaskEditActivity" />
+        <activity android:name=".view.PushActivty"></activity>
     </application>
 
 </manifest>
