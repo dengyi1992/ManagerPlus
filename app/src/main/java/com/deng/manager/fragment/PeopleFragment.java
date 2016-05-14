@@ -1,5 +1,8 @@
 package com.deng.manager.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -18,6 +22,7 @@ import com.deng.manager.adapter.CardBigUserGvItemAdapter;
 import com.deng.manager.adapter.CardBigUserItemAdapter;
 import com.deng.manager.bean.clientUserBean;
 import com.deng.manager.utils.HttpUtils;
+import com.deng.manager.view.PushActivty;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
@@ -35,6 +40,7 @@ public class PeopleFragment extends Fragment {
     private ProgressBar mProgressBar;
     private ArrayList<clientUserBean.SuccessBean> successBeens;
     private CardBigUserItemAdapter adapterlv;
+    private String[] userType = new String[]{"热点", "视频", "图片", "娱乐", "科技", "汽车", "体育", "财经", "军事", "国际", "时尚", "旅游", "探索", "育儿", "养生", "故事", "美文", "游戏", "历史", "美食"};
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -44,7 +50,7 @@ public class PeopleFragment extends Fragment {
                     adaptergv.notifyDataSetChanged();
                     break;
                 case ERROR:
-                    Toast.makeText(getContext(),"网络错误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "网络错误", Toast.LENGTH_SHORT).show();
                     break;
             }
             mProgressBar.setVisibility(View.GONE);
@@ -57,6 +63,7 @@ public class PeopleFragment extends Fragment {
     private GridView mGvGridView;
     private CardBigUserGvItemAdapter adaptergv;
     private boolean islv;
+    private AbsListView lv;
 
     @Nullable
     @Override
@@ -77,18 +84,18 @@ public class PeopleFragment extends Fragment {
         mPushMessageFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showMultiChoiceItems();
             }
         });
         mChangeViewFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.change_view);
         mChangeViewFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               islv=!islv;
-                if (islv){
+                islv = !islv;
+                if (islv) {
                     listViewPeople.setVisibility(View.VISIBLE);
                     mGvGridView.setVisibility(View.GONE);
-                }else {
+                } else {
                     listViewPeople.setVisibility(View.GONE);
                     mGvGridView.setVisibility(View.VISIBLE);
                 }
@@ -100,10 +107,10 @@ public class PeopleFragment extends Fragment {
         adaptergv = new CardBigUserGvItemAdapter(getContext(), successBeens);
         listViewPeople.setAdapter(adapterlv);
         mGvGridView.setAdapter(adaptergv);
-        if (islv){
+        if (islv) {
             listViewPeople.setVisibility(View.VISIBLE);
             mGvGridView.setVisibility(View.GONE);
-        }else {
+        } else {
             listViewPeople.setVisibility(View.GONE);
             mGvGridView.setVisibility(View.VISIBLE);
         }
@@ -132,5 +139,74 @@ public class PeopleFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void showMultiChoiceItems() {
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle("请选择要推送的用户类型：")
+                .setMultiChoiceItems(userType,
+                        new boolean[]{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+                        new DialogInterface.OnMultiChoiceClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which, boolean isChecked) {
+                                // TODO Auto-generated method stub
+
+                            }
+                        })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String s = "您选择了：";
+                        // 扫描所有的列表项，如果当前列表项被选中，将列表项的文本追加到s变量中。
+                        double sum = 0;
+                        for (int i = 0; i < userType.length; i++) {
+
+                            if (lv.getCheckedItemPositions().get(i)) {
+                                s += i + ":" + lv.getAdapter().getItem(i) + " ";
+                                sum = sum + Math.pow(2, i);
+                            }
+                        }
+
+                        // 用户至少选择了一个列表项
+                        if (lv.getCheckedItemPositions().size() > 0) {
+                            int sum1 = (int) sum;
+                            final Intent intent = new Intent(getContext(), PushActivty.class);
+                            intent.putExtra("showString",s);
+                            intent.putExtra("code",sum1);
+
+                            new AlertDialog.Builder(getContext())
+                                    .setMessage("是否前往选择要推送的消息？")
+                                    .setTitle(s)
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    }).show();
+
+                            System.out.println(lv.getCheckedItemPositions().size());
+                        }
+
+                        // 用户未选择任何列表项
+                        else if (lv.getCheckedItemPositions().size() <= 0) {
+                            new AlertDialog.Builder(getContext())
+                                    .setMessage("您未选择任何用户类型").show();
+                        }
+                    }
+                }).setNegativeButton("取消", null).create();
+        //
+        lv = builder.getListView();
+        builder.show();
+
     }
 }
