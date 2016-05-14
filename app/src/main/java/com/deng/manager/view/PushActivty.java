@@ -75,6 +75,7 @@ public class PushActivty extends AppCompatActivity {
                     Toast.makeText(PushActivty.this, "网络错误！", Toast.LENGTH_SHORT).show();
                     break;
             }
+            mProgressBarProgressBar.setVisibility(View.GONE);
         }
     };
     private String success;
@@ -122,6 +123,7 @@ public class PushActivty extends AppCompatActivity {
                         .setPositiveButton("现在就发", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                mProgressBarProgressBar.setVisibility(View.VISIBLE);
                                 new Thread() {
                                     @Override
                                     public void run() {

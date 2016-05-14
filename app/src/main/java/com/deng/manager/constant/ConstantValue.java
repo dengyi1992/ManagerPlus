@@ -23,5 +23,5 @@ public class ConstantValue {
     public static String changePassUrl = "http://120.27.41.245:3001/admin/changepass";
     public static String CheckUrl = BaseUrl + "wahhh";
     public static String taskSetting = "http://120.27.41.245:3001/admin/tasksetting";
-    public static String pushUrl = "http://120.27.41.245:3001/admin/tasksetting";
+    public static String pushUrl = "http://120.27.41.245:3001/admin/push";
 }
