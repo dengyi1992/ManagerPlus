@@ -123,6 +123,7 @@ public class MessageService extends Service {
                 contentValues.put("time", time);
                 mNtify(name, time);
                 writableDatabase.insert("Message", null, contentValues);
+                writableDatabase.close();
                 messagedb.close();
                 Intent intent = new Intent();
                 intent.setAction(ConstantValue.UPDATE_MESSAGE_INFO);
